@@ -1,0 +1,70 @@
+scalar GraphQLDate
+
+enum StatusType{
+New 
+Assigned
+Fixed 
+Closed
+}
+input BugInputs {
+name: String!
+"Optional, if not supplied, will be set to 'New'"
+status: StatusType=New
+projectName:String!
+owner: String
+effort: Int
+due: GraphQLDate
+created:GraphQLDate!
+description:String
+}
+type projects{
+projects:[project]
+}
+
+input ProjectInputs{
+id:Int!
+name:String!
+leadName:String!
+}
+type project{
+_id:ID!
+id:Int!
+name:String!
+leadName:String!
+created:GraphQLDate!
+}
+type bug {
+_id:ID!
+id: Int!
+name: String!
+projectName:String!
+status: StatusType!
+owner: String
+effort: Int
+created: GraphQLDate!
+due: GraphQLDate
+description:String
+}
+type bugs{
+bugs:[bug]
+}
+#####"""Inputs for issueUpdate: all are optional. Whichever is specified will
+####be set to the given value, undefined fields will remain unmodified."""
+
+##### Top level declarations
+type Query {
+bugList(status:StatusType effortMin:Int effortMax:Int 
+search:String page:Int=1): BugListWithPages
+queryProjects:projects!
+bugsList(proName:String!):bugs!
+}
+type Mutation{
+addProject(project:ProjectInputs):project
+addBug(bug:BugInputs):bugs
+updateProject(project:ProjectInputs!):Int
+}
+type BugListWithPages{
+    bugs:[bug!]!
+    pages:Int
+}
+
