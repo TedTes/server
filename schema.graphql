@@ -25,6 +25,7 @@ input ProjectInputs{
 id:Int!
 name:String!
 leadName:String!
+created:GraphQLDate
 }
 type project{
 _id:ID!

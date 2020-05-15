@@ -3,14 +3,14 @@ const {getDB}=require('./db.js')
 
 async function addProject(_,{project}){
     const db=getDB();
-    project.created=new Date();
-    project.id=getNextSequenceNo(project);
+    // project.created=new Date();
+    // project.id=getNextSequenceNo(project);
     const result=db.collection("projects").insertOne(project,(err,result)=>{
         if(err)
         MongoClient.close();
+      else return(result.result.n);
     });
-   
-    return result;
+    
     }
     async function addBug(_,{bug}){
         const db=getDB();
@@ -36,8 +36,6 @@ async function updateProject(_,{project}){
     const db= getDB();
     try{
         const result=await db.collection('projects').updateOne({"id":project.id},{$set:{"name":project.name,"leadName":project.leadName}})
-        console.log("from db")
-        console.log(result.result.n)
         return result.result.n;
    }
     catch(e){
