@@ -3,18 +3,32 @@ const {getDB}=require('./db.js')
 
 async function addProject(_,{project}){
     const db=getDB();
-    // project.created=new Date();
-    // project.id=getNextSequenceNo(project);
-    const result=db.collection("projects").insertOne(project,(err,result)=>{
-        if(err)
-        MongoClient.close();
-      else return(result.result.n);
-    });
+    project.id=await getNextSequenceNo("project_id","project_value");
+    
+    try{
+      const result=await db.collection("projects").insertOne(project)
+        return result.result.n;
+    }
+    catch(err){console.log(e);} 
+
     
     }
+    // ==================================================================
+async function deleteProject(_,{id}){
+    console.log("from db");
+    console.log(id)
+    const db=getDB();
+    try{
+       const result=await db.collection("projects").deleteOne({id})
+       return result.result.n;
+    }
+    catch(err){console.log(err)}
+}
+
+// ===================================================
     async function addBug(_,{bug}){
         const db=getDB();
-        bug.id=getNextSequenceNo(bug);
+        bug.id=getNextSequenceNo("bug_id","bug_value");
         try{
             const res=await db.collection("buggs").insertOne(bug,(err,res)=>{
                 return(res.result.n);
@@ -52,25 +66,16 @@ async function bugsList(_,{proName}){
     return {bugs}
 }
 
-async function getNextSequenceNo(colln){
-    const sequenceId=0;
-    if(colln===bug){
-        sequenceId=db.collection("counter").findOneAndUpdate({
-            update:{$inc:{$buggs_id:1}},
-            new:true
-        })
-    }
-else{
-    sequenceId=db.collection("counter").findOneAndUpdate({
-        update:{$inc:{$projects_id:1}},
-        new:true
-    })
+async function getNextSequenceNo(seq_name,value){
+    const db=getDB();
+  var sequenceId=await db.collection("counters").findOneAndUpdate(
+        {_id:seq_name},
+       {$inc:{[value]:1}},
+       { new:true}
+    );
+   return seq_name==="project_id"?sequenceId.value.project_value:sequenceId.value.bug_value
 }
-return sequenceId.id;
-}
- 
-
-module.exports={projectsList,addProject,addBug,bugsList,updateProject}
+ module.exports={projectsList,addProject,addBug,bugsList,updateProject,deleteProject}
 
 
 

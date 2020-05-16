@@ -30,6 +30,7 @@ const resolvers = {
    addProject:bug.addProject,
    addBug:bug.addBug,
    updateProject:bug.updateProject,
+   deleteProject:bug.deleteProject
     },
     GraphQLDate,
     };

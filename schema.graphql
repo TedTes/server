@@ -22,20 +22,20 @@ projects:[project]
 }
 
 input ProjectInputs{
-id:Int!
+id:Int
 name:String!
 leadName:String!
 created:GraphQLDate
 }
 type project{
-_id:ID!
+_id:ID
 id:Int!
 name:String!
 leadName:String!
 created:GraphQLDate!
 }
 type bug {
-_id:ID!
+_id:ID
 id: Int!
 name: String!
 projectName:String!
@@ -60,9 +60,10 @@ queryProjects:projects!
 bugsList(proName:String!):bugs!
 }
 type Mutation{
-addProject(project:ProjectInputs):project
+addProject(project:ProjectInputs):Int
 addBug(bug:BugInputs):bugs
 updateProject(project:ProjectInputs!):Int
+deleteProject(id:Int!):Int
 }
 type BugListWithPages{
     bugs:[bug!]!

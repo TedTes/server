@@ -9,7 +9,7 @@
     "apollo-server-express": "^2.10.1",
     "dotenv": "^8.2.0",
     "main": "server.js",
-    "mongodb": "^3.5.4",
+    "mongodb": "^3.5.7",
     "nodemon": "^2.0.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
