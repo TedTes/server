@@ -17,6 +17,7 @@ async function addProject(_,{project}){
         bug.id=getNextSequenceNo(bug);
         try{
             const res=await db.collection("buggs").insertOne(bug,(err,res)=>{
+                return(res.result.n);
             })
         }
         catch(err){

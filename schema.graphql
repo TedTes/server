@@ -11,9 +11,9 @@ name: String!
 "Optional, if not supplied, will be set to 'New'"
 status: StatusType=New
 projectName:String!
-owner: String
-effort: Int
-due: GraphQLDate
+#owner: String
+#effort: Int
+#due: GraphQLDate
 created:GraphQLDate!
 description:String
 }
