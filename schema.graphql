@@ -64,6 +64,7 @@ addProject(project:ProjectInputs):Int
 addBug(bug:BugInputs):bugs
 updateProject(project:ProjectInputs!):Int
 deleteProject(id:Int!):Int
+deleteBug(id:Int!):Int
 }
 type BugListWithPages{
     bugs:[bug!]!

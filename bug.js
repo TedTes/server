@@ -13,10 +13,16 @@ async function addProject(_,{project}){
 
     
     }
-    // ==================================================================
+// ==================================================================
+    async function deleteBug(_,{id}){
+     const db=getDB();
+     try{
+        const result=await db.collection("buggs").deleteOne({id})
+        return result.result.n;
+     }
+     catch(err){console.log(err)}
+    }
 async function deleteProject(_,{id}){
-    console.log("from db");
-    console.log(id)
     const db=getDB();
     try{
        const result=await db.collection("projects").deleteOne({id})
@@ -28,11 +34,11 @@ async function deleteProject(_,{id}){
 // ===================================================
     async function addBug(_,{bug}){
         const db=getDB();
-        bug.id=getNextSequenceNo("bug_id","bug_value");
+        bug.id=await getNextSequenceNo("bug_id","bug_value");
         try{
-            const res=await db.collection("buggs").insertOne(bug,(err,res)=>{
+            const res=await db.collection("buggs").insertOne(bug);
                 return(res.result.n);
-            })
+        
         }
         catch(err){
             console.log(`Error from DB:${err}`);
@@ -75,7 +81,7 @@ async function getNextSequenceNo(seq_name,value){
     );
    return seq_name==="project_id"?sequenceId.value.project_value:sequenceId.value.bug_value
 }
- module.exports={projectsList,addProject,addBug,bugsList,updateProject,deleteProject}
+ module.exports={projectsList,addProject,addBug,bugsList,updateProject,deleteProject,deleteBug}
 
 
 
